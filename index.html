@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum-Audit | LLM Benchmark for Quantum Computing</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <span class="logo-icon">QA</span>
+        <span>Quantum-Audit</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#leaderboard">Leaderboard</a></li>
+        <li><a href="#topics">Topics</a></li>
+        <li><a href="#sample">Sample Questions</a></li>
+        <li><a href="#data" class="nav-btn">Data & Code</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero" id="overview">
+    <div class="hero-bg"></div>
+    <div class="container hero-content">
+      <h1>Quantum-Audit</h1>
+      <p class="hero-subtitle">
+        Evaluating the Reasoning Limits of LLMs on Quantum Computing
+      </p>
+    </div>
+  </header>
+
+  <!-- Leaderboard -->
+  <section class="section leaderboard-section" id="leaderboard">
+    <div class="container">
+      <h2 class="section-title">Model Leaderboard</h2>
+
+      <div class="leaderboard-controls">
+        <div class="filter-group">
+          <label>Filter by provider:</label>
+          <select id="provider-filter">
+            <option value="all">All Providers</option>
+            <option value="OpenAI">OpenAI</option>
+            <option value="Anthropic">Anthropic</option>
+            <option value="Google">Google</option>
+            <option value="Meta">Meta</option>
+            <option value="Microsoft">Microsoft</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Sort by:</label>
+          <select id="sort-select">
+            <option value="overall">Complete Dataset</option>
+            <option value="expert">Expert Written</option>
+            <option value="llm">LLM Extracted</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="leaderboard-table" id="leaderboard-table">
+          <thead>
+            <tr>
+              <th class="rank-col">#</th>
+              <th class="model-col">Model</th>
+              <th class="provider-col">Provider</th>
+              <th class="size-col">Size</th>
+              <th class="score-col sortable" data-sort="expert">Expert Written</th>
+              <th class="score-col sortable" data-sort="llm">LLM Extracted</th>
+              <th class="score-col sortable active" data-sort="overall">Complete Dataset</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Topics Section -->
+  <section class="section topics-section" id="topics">
+    <div class="container">
+      <h2 class="section-title">Performance by Topic</h2>
+      <p class="section-description">
+        Models handle foundational concepts well but decline sharply on advanced topics.
+        Security questions see the steepest drop, with performance falling to 76%.
+      </p>
+      <div class="chart-card wide">
+        <div class="chart-container tall">
+          <canvas id="topicChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sample Questions -->
+  <section class="section sample-section" id="sample">
+    <div class="container">
+      <h2 class="section-title">Sample Questions</h2>
+      <p class="section-description">
+        Examples from the Quantum-Audit benchmark illustrating the depth and breadth of questions.
+      </p>
+      <div class="questions-grid" id="questions-grid">
+      </div>
+      <div class="load-more-container">
+        <button class="btn-load-more" id="load-more-btn">Load More Questions</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Access -->
+  <section class="section dataset-section" id="data">
+    <div class="container">
+      <h2 class="section-title">Data & Code</h2>
+      <p class="section-description">
+        Download the Quantum-Audit benchmark dataset and evaluation code.
+      </p>
+      <div class="dataset-grid">
+        <div class="dataset-card">
+          <div class="dataset-number">1,000</div>
+          <div class="dataset-name">QA 1000 Expert Written</div>
+          <p>Multiple choice questions developed by quantum computing researchers.</p>
+          <a href="data/expert_written.json" download="QA_1000_Expert_Written.json" class="data-link">Download JSON</a>
+        </div>
+        <div class="dataset-card">
+          <div class="dataset-number">1,000</div>
+          <div class="dataset-name">QA 1000 LLM Extracted</div>
+          <p>Questions extracted from research papers using LLMs and validated by domain experts.</p>
+          <a href="data/llm_extracted.json" download="QA_1000_LLM_Extracted.json" class="data-link">Download JSON</a>
+        </div>
+        <div class="dataset-card">
+          <div class="dataset-number">2,000</div>
+          <div class="dataset-name">QA 2000 Complete Dataset</div>
+          <p>The full benchmark combining expert-written and LLM-extracted questions across all topics.</p>
+          <a href="data/complete.json" download="QA_2000_Complete.json" class="data-link">Download JSON</a>
+        </div>
+        <div class="dataset-card">
+          <div class="dataset-number">350</div>
+          <div class="dataset-name">Open-Ended</div>
+          <p>Questions requiring detailed explanations without answer options.</p>
+          <a href="data/open_ended.json" download="QA_Open_Ended.json" class="data-link">Download JSON</a>
+        </div>
+        <div class="dataset-card">
+          <div class="dataset-number">350</div>
+          <div class="dataset-name">False Premise</div>
+          <p>Questions with intentionally incorrect assumptions to test error detection.</p>
+          <a href="data/false_premise.json" download="QA_False_Premise.json" class="data-link">Download JSON</a>
+        </div>
+        <div class="dataset-card">
+          <div class="dataset-number">500</div>
+          <div class="dataset-name">QA 500 Expert Subset</div>
+          <p>A curated subset of 500 expert-written multiple choice questions.</p>
+          <a href="data/qa500.json" download="QA500.json" class="data-link">Download JSON</a>
+        </div>
+        <div class="dataset-card">
+          <div class="dataset-number">500</div>
+          <div class="dataset-name">QA 500 Spanish</div>
+          <p>The QA500 subset translated into Spanish for cross-lingual evaluation.</p>
+          <a href="data/qa500_spanish.json" download="QA500_Spanish.json" class="data-link">Download JSON</a>
+        </div>
+        <div class="dataset-card">
+          <div class="dataset-number">500</div>
+          <div class="dataset-name">QA 500 French</div>
+          <p>The QA500 subset translated into French for cross-lingual evaluation.</p>
+          <a href="data/qa500_french.json" download="QA500_French.json" class="data-link">Download JSON</a>
+        </div>
+        <div class="dataset-card">
+          <div class="dataset-number">&lt;/&gt;</div>
+          <div class="dataset-name">Benchmarking Code</div>
+          <p>Scripts and evaluation code used to run the Quantum-Audit benchmark on all models.</p>
+          <a href="code/benchmark.py" download class="data-link">Download</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon">QA</span>
+          <span>Quantum-Audit</span>
+        </div>
+        <p class="footer-text">
+          Evaluating the Reasoning Limits of LLMs on Quantum Computing
+        </p>
+        <div class="footer-links">
+          <a href="#">Paper</a>
+          <a href="#data">Data & Code</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
